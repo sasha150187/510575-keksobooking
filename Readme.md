@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Саша Ковзанович](https://up.htmlacademy.ru/javascript/15/user/510575).
-* Наставник: `Андрей Рыжаков`.
+* Наставник: [Андрей Рыжаков](https://htmlacademy.ru/profile/id201015).
 
 ---
 
