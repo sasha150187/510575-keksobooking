@@ -88,13 +88,13 @@ var fragment = document.createDocumentFragment();
 var adMark = document.querySelector('.map').children[0];
 var template = document.querySelector('#pin').content.querySelector('.map__pin');
 
-for (var i = 0; i < 3; i++) {
+for (var k = 0; k < 3; k++) {
   var element = template.cloneNode(true);
-  element.innerHTML = '<img src="img/avatars/user0' + i + '.png" width="40" height="40" draggable="false" alt="titles[i]">';
-};
+  element.innerHTML = '<img src="img/avatars/user0' + k + '.png" width="40" height="40" draggable="false" alt="titles[i]">';
+}
 adMark.appendChild(element);
 
-for (var i = 0; i < 3; i++) {
+for (var h = 0; h < 3; h++) {
   var newElement = document.createElement('button');
   fragment.appendChild(newElement);
 }
@@ -105,7 +105,7 @@ var adCard = document.querySelector('.map');
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
 
-  var cardElement = cardTemplate.cloneNode(true);
+var cardElement = cardTemplate.cloneNode(true);
 
 adCard.appendChild(cardElement);
 
