@@ -66,7 +66,7 @@ var getRandomNumber = function (min, max) {
 
 
 
-// 1 фу-я
+
 function createUser(i) {
   return {
     avatar: 'img/avatars/user0' + (i + 1) + '.png'
