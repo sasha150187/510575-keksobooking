@@ -1,5 +1,7 @@
 'use strict'
 
+var ESC_KEYCODE = 27;
+
 var yRange = { min: 130, max: 630 };
 var pinSize = { width: 50, height: 70 };
 var container = document.querySelector('.map__pins');
@@ -54,6 +56,13 @@ var photos = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg'
 ];
+
+var map = document.querySelector('.map');
+var currentCard = null;
+var activePin = null;
+
+
+var count = 1;
 // 1 фу-я создает массив avatar (author: {avatar:)
 function createUser(i) {
   return {
@@ -78,6 +87,7 @@ function createRealty(i, coords) {
     })
   }
 }
+
 // 3 фу-я создает координаты, массив location
 function createCoords (container) {
 
@@ -97,22 +107,29 @@ function createAdvertisement (i, container) {
   return advertisement;
 };
 // 5 фу-я создает один из пинов, который мы будем видеть на карте как объявление жилья
-function createPin (offers) {
+function createPin (offer) {
   var clonePin = pin.cloneNode(true);
-  clonePin.querySelector('img').src = offers.author.avatar;
-  clonePin.querySelector('img').alt = offers.offer.title;
-  clonePin.style.left = offers.location.x - pinSize.width/2 + 'px';
-  clonePin.style.top = offers.location.y + pinSize.height + 'px';
+  clonePin.querySelector('img').src = offer.author.avatar;
+  clonePin.querySelector('img').alt = offer.offer.title;
+  clonePin.style.left = offer.location.x - pinSize.width / 2 + 'px';
+  clonePin.style.top = offer.location.y + pinSize.height + 'px';
   clonePin.addEventListener ('click', function () {
-    insertAfter(cardsElements, pinsContainer);
-    clonePin.classList.add('map__pin--active');
-
+    if(currentCard) {
+      currentCard.remove();
+    }
+    currentCard = createCard(offer);
+    if(activePin) {
+      activePin.classList.remove('map__pin--active');
+    }
+    activePin = clonePin;
+    activePin.classList.add('map__pin--active');
+    map.lastElementChild.insertAdjacentElement('beforeBegin', currentCard);
   });
 
   return clonePin;
 };
 // 6 фу-я создает одну из карт объявления
-function createCard (offers) {
+function createCard (offers) { // в ед. числе
   var cloneCard = card.cloneNode(true);
   cloneCard.querySelector('img').src = offers.author.avatar;
   cloneCard.querySelector('.popup__title').textContent = offers.offer.title;
@@ -125,75 +142,62 @@ function createCard (offers) {
 // создадим блок features
   var features = cloneCard.querySelector('.popup__features');
   features.innerHTML = '';
-
-var fragment = document.createDocumentFragment();
-
-  for (var j = 0; j < 6; j++) {
-  var newElement = document.createElement('li');
-  newElement.className = 'popup__feature popup__feature--' + facilities[j];
-  fragment.appendChild(newElement);
-  };
-  features.appendChild(fragment);
+  offers.offer.features.forEach(function(item) {
+    var newElement = document.createElement('li');
+    newElement.classList.add('popup__feature');
+    newElement.classList.add('popup__feature--' + item);
+    features.appendChild(newElement);
+  });
 // создадим внутри блока(.popup__photos) нужное количество img
   var blockForPhoto = cloneCard.querySelector('.popup__photos');
-  var img = cloneCard.querySelector('.popup__photos').querySelector('img');
-  blockForPhoto.removeChild(img);
-
-  var fragment = document.createDocumentFragment();
-
-  for (var k = 0; k < 3; k++) {
-  var newElement = document.createElement('img');
-  newElement.src = photos[k];
-  newElement.style.width = "45px";
-  newElement.style.height = "45px";
-  newElement.className = 'popup__photo';
-  newElement.alt = 'Фотография жилья';
-  fragment.appendChild(newElement);
-  };
-
-  blockForPhoto.appendChild(fragment);
+  blockForPhoto.innerHTML = '';
+  offers.offer.photos.forEach(function(item) {
+    var newElement = document.createElement('img');
+    newElement.src = item;
+    newElement.style.width = "45px";
+    newElement.style.height = "45px";
+    newElement.classList.add('popup__photo');
+    newElement.alt = 'Фотография жилья';
+    blockForPhoto.appendChild(newElement);
+  });
 // добавим обработчики события для карточки-объявления
   var closeButton = cloneCard.querySelector('.popup__close');
-  closeButton.addEventListener('click', function () {
-    cloneCard.classList.add('hidden');
+  closeButton.addEventListener('click', function (event) {
+    event.preventDefault();
+    closeCard();
   });
-
-  document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 27) {
-      cloneCard.classList.add('hidden');
-    };
-});
+  document.addEventListener('keydown', escPressHandler);
 
   return cloneCard;
 };
 
-function getFragment (offers, create) {
-  var fragment = document.createDocumentFragment();
-
-  for (var i = 0; i < offers.length; i++) {
-    var element = create(offers[i]);
-    fragment.appendChild(element);
+function closeCard() {
+  if(activePin) {
+    activePin.classList.remove('map__pin--active');
   }
-
-  return fragment;
+  currentCard.remove();
+  document.removeEventListener('keydown', escPressHandler);
 }
 
-function insertAfter (elem, refElem) {
-  return refElem.parentNode.insertBefore(elem, refElem.nextSibling);
-};
+function escPressHandler(event) {
+  if (event.keyCode === ESC_KEYCODE) {
+    closeCard();
+  };
+}
 // цикл создающий массив из 8 объектов
 var offers = [];
 for (var i = 0; i < 8; i++) {
   offers.push(createAdvertisement(i, pinsContainer));
 }
 
-var pinsElements = getFragment(offers, createPin);
-var cardsElements = getFragment(offers, createCard);
-// insertAfter(cardsElements, pinsContainer);
-
-
-
-
+function renderPins(offersData) {
+  var fragment = document.createDocumentFragment();
+  offersData.forEach(function(offer) {
+    var pin = createPin(offer);
+    fragment.appendChild(pin);
+  });
+  pinsContainer.appendChild(fragment);
+}
 // Лекция номер 4:
 // активация страницы перетягиванием метки
 var mapPinButton = document.querySelector('.map__pin--main');
@@ -204,7 +208,7 @@ mapPinButton.addEventListener('mouseup', function () {
   adForm.classList.remove('ad-form--disabled');
   var input = document.querySelector('#address');
   input.setAttribute('value', redMuffinCords.join());
-  pinsContainer.appendChild(pinsElements);
+  renderPins(offers);
 });
 // получение координат метки(адреса)
 var button = document.querySelector('button');
