@@ -211,6 +211,7 @@ mapPinButton.addEventListener('mouseup', function () {
 var button = document.querySelector('button');
 var pinCoordinate = { x: container.offsetWidth / 2, y: button.offsetTop + pinSize.height / 2 };
 var redMuffinCords = [pinCoordinate.x, pinCoordinate.y];
+
 // лекция номер 4, часть 2. валидация формы
 // тип жилья
 var accommodationType = document.querySelector('#type');
@@ -244,3 +245,4 @@ roomNumber.addEventListener('change', function(evt) {
   var currentValue = evt.currentTarget.value;
   capacity.value = currentValue;
 });
+
