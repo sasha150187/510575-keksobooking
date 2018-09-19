@@ -1,19 +1,16 @@
-'use strict';
+'use strict'
 
-var mapFade = document.querySelector('.map');
-mapFade.classList.remove('map--faded');
+var ESC_KEYCODE = 27;
 
-var yRange = {
-  min: 130,
-  max: 630
-};
-
-var pinSize = {
-      width: 50,
-      height: 70
-};
-
+var yRange = { min: 130, max: 630 };
+var pinSize = { width: 50, height: 70 };
 var container = document.querySelector('.map__pins');
+var card = document.querySelector('#card').content.querySelector('.map__card');
+var pin = document.querySelector('#pin').content.querySelector('.map__pin');
+var pinsContainer = document.querySelector('.map__pins');
+var getRandomNumber = function (min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 var titles = [
   'Большая уютная квартира',
@@ -60,19 +57,18 @@ var photos = [
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg'
 ];
 
-var getRandomNumber = function (min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
 
-
-
-// 1 фу-я
+var map = document.querySelector('.map');
+var currentCard = null;
+var activePin = null;
+// 1 фу-я создает массив avatar (author: {avatar:)
 function createUser(i) {
   return {
     avatar: 'img/avatars/user0' + (i + 1) + '.png'
   }
 }
-// 2 фу-я
+
+// 2 фу-я создает массив offer
 function createRealty(i, coords) {
   return {
     title: titles[i],
@@ -90,7 +86,8 @@ function createRealty(i, coords) {
     })
   }
 }
-// 3 фу-я
+
+// 3 фу-я создает координаты, массив location
 function createCoords (container) {
 
   return {
@@ -98,113 +95,122 @@ function createCoords (container) {
     y: getRandomNumber(yRange.min, yRange.max)
   }
 }
-// 4 функия
-function createAds (i, container) {
-  var ads = {};
 
-  ads.author = createUser(i);
-  ads.location = createCoords(container);
-  var cords = [ads.location.x, ads.location.y];
-  ads.offer = createRealty(i, cords);
+// 4 функия создает один из 8(i) объектов внутри массива(#card)
+function createAdvertisement (i, container) {
+  var advertisement = {};
+  advertisement.author = createUser(i); // author
+  advertisement.location = createCoords(container); //location или координаты
+  var coordinate = [advertisement.location.x, advertisement.location.y];
+  advertisement.offer = createRealty(i, coordinate);
 
-  return ads;
-}
-
-// 5 фу-я
+  return advertisement;
+};
+// 5 фу-я создает один из пинов, который мы будем видеть на карте как объявление жилья
 function createPin (offer) {
-  var  template = document.querySelector('#pin').content.querySelector('.map__pin').cloneNode(true);
-  var  image = template.querySelector('img');
-
-  template.style.left = offer.location.x - pinSize.width/2 + 'px';
-  template.style.top = offer.location.y + pinSize.height + 'px';
-  image.src = offer.author.avatar;
-  image.alt = offer.offer.title;
-
-  return template;
-};
-
-function createCard (unit) {
-  var template = document.querySelector('#card').content.querySelector('.map__card').cloneNode(true),
-      user = template.querySelector('.popup__avatar'),
-      photoImage = template.querySelector('.popup__photo'),
-      photos = template.querySelector('.popup__photos'),
-      capacity = template.querySelector('.popup__text--capacity'),
-      time = template.querySelector('.popup__text--time'),
-      selectorMap = {
-        'title': '.popup__title',
-        'price': '.popup__text--price',
-        'address': '.popup__text--address',
-        'price': '.popup__text--price',
-        'type': '.popup__type',
-        'features': '.popup__features',
-        'description': '.popup__description'
-      };
-
-  user.src = unit.author.avatar;
-
-  photos.innerHTML = '';
-  unit.offer.photos.forEach(function(src, i) {
-    var photo = photoImage.cloneNode(true);
-    photo.src = src;
-    photos.appendChild(photo)
-  });
-
-  capacity.innerHTML = unit.offer.rooms + ' комнаты для ' + unit.offer.guests + ' гостей';
-  time.innerHTML = 'Заезд после ' + unit.offer.checkin + ', выезд до' + unit.offer.checkout;
-
-  var map = Object.keys(selectorMap)
-  for (var i = 0; i < map.length; i++) {
-    var key = map[i];
-    var element = template.querySelector(selectorMap[key]);
-    element.innerHTML = key === 'features' ?  unit.offer[key].join(', ') : unit.offer[key];
-    if (key === 'price') {
-      element.innerHTML +='₽/ночь';
+  var clonePin = pin.cloneNode(true);
+  clonePin.querySelector('img').src = offer.author.avatar;
+  clonePin.querySelector('img').alt = offer.offer.title;
+  clonePin.style.left = offer.location.x - pinSize.width / 2 + 'px';
+  clonePin.style.top = offer.location.y + pinSize.height + 'px';
+  clonePin.addEventListener ('click', function () {
+    if(currentCard) {
+      currentCard.remove();
     }
-  }
-
-  Object.keys(selectorMap).forEach(function(key) {
-      var element = template.querySelector(selectorMap[key]);
-      element.innerHTML = key === 'features' ?  unit.offer[key].join(', ') : unit.offer[key];
-
-// if (key === 'features') {
-//   element.innerHTML = unit.offer[key].join(', ')
-// }
-// else {
-//   element.innerHTML = unit.offer[key];
-// }
-
-      if (key === 'price') {
-        element.innerHTML +='₽/ночь';
-      }
+    currentCard = createCard(offer);
+    if(activePin) {
+      activePin.classList.remove('map__pin--active');
+    }
+    activePin = clonePin;
+    activePin.classList.add('map__pin--active');
+    map.lastElementChild.insertAdjacentElement('beforeBegin', currentCard);
   });
 
+  return clonePin;
+};
+// 6 фу-я создает одну из карт объявления
+function createCard (offers) { // в ед. числе
+  var cloneCard = card.cloneNode(true);
+  cloneCard.querySelector('img').src = offers.author.avatar;
+  cloneCard.querySelector('.popup__title').textContent = offers.offer.title;
+  cloneCard.querySelector('.popup__text--address').textContent = offers.offer.address;
+  cloneCard.querySelector('.popup__text--price').textContent = offers.offer.price + ' ₽/ночь';
+  cloneCard.querySelector('.popup__type').textContent = offers.offer.type;
+  cloneCard.querySelector('.popup__text--capacity').textContent = offers.offer.rooms + ' комнаты для ' + offers.offer.guests + ' гостей';
+  cloneCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + offers.offer.checkin + ', выезд до' + offers.offer.checkout;
+  cloneCard.querySelector('.popup__description').textContent = offers.offer.description;
+// создадим блок features
+  var features = cloneCard.querySelector('.popup__features');
+  features.innerHTML = '';
+  offers.offer.features.forEach(function(item) {
+    var newElement = document.createElement('li');
+    newElement.classList.add('popup__feature');
+    newElement.classList.add('popup__feature--' + item);
+    features.appendChild(newElement);
+  });
+// создадим внутри блока(.popup__photos) нужное количество img
+  var blockForPhoto = cloneCard.querySelector('.popup__photos');
+  blockForPhoto.innerHTML = '';
+  offers.offer.photos.forEach(function(item) {
+    var newElement = document.createElement('img');
+    newElement.src = item;
+    newElement.style.width = "45px";
+    newElement.style.height = "45px";
+    newElement.classList.add('popup__photo');
+    newElement.alt = 'Фотография жилья';
+    blockForPhoto.appendChild(newElement);
+  });
+// добавим обработчики события для карточки-объявления
+  var closeButton = cloneCard.querySelector('.popup__close');
+  closeButton.addEventListener('click', function (event) {
+    event.preventDefault();
+    closeCard();
+  });
+  document.addEventListener('keydown', escPressHandler);
 
-  return template;
+  return cloneCard;
 };
 
-function getFragment (offers, create) {
-  var fragment = document.createDocumentFragment();
-
-  for (var i = 0; i < offers.length; i++) {
-    var el = create(offers[i]);
-    fragment.appendChild(el);
+function closeCard() {
+  if(activePin) {
+    activePin.classList.remove('map__pin--active');
   }
-
-  return fragment;
+  currentCard.remove();
+  document.removeEventListener('keydown', escPressHandler);
 }
 
-function insertAfter (elem, refElem) {
-  return refElem.parentNode.insertBefore(elem, refElem.nextSibling);
+function escPressHandler(event) {
+  if (event.keyCode === ESC_KEYCODE) {
+    closeCard();
+  };
 }
-
-var pinsContainer = document.querySelector('.map__pins');
+// цикл создающий массив из 8 объектов
 var offers = [];
 for (var i = 0; i < 8; i++) {
-  offers.push(createAds(i, pinsContainer));
+  offers.push(createAdvertisement(i, pinsContainer));
 }
 
-var pinsElements = getFragment(offers, createPin);
-var cardsElements = getFragment(offers, createCard);
-
-pinsContainer.appendChild(pinsElements);
-insertAfter(cardsElements, pinsContainer);
+function renderPins(offersData) {
+  var fragment = document.createDocumentFragment();
+  offersData.forEach(function(offer) {
+    var pin = createPin(offer);
+    fragment.appendChild(pin);
+  });
+  pinsContainer.appendChild(fragment);
+}
+// Лекция номер 4:
+// активация страницы перетягиванием метки
+var mapPinButton = document.querySelector('.map__pin--main');
+mapPinButton.addEventListener('mouseup', function () {
+  var mapFade = document.querySelector('.map');
+  mapFade.classList.remove('map--faded');
+  var adForm = document.querySelector('.ad-form');
+  adForm.classList.remove('ad-form--disabled');
+  var input = document.querySelector('#address');
+  input.setAttribute('value', redMuffinCords.join());
+  renderPins(offers);
+});
+// получение координат метки(адреса)
+var button = document.querySelector('button');
+var pinCoordinate = { x: container.offsetWidth / 2, y: button.offsetTop + pinSize.height / 2 };
+var redMuffinCords = [pinCoordinate.x, pinCoordinate.y];
