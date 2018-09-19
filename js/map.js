@@ -57,18 +57,17 @@ var photos = [
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg'
 ];
 
+
 var map = document.querySelector('.map');
 var currentCard = null;
 var activePin = null;
-
-
-var count = 1;
 // 1 фу-я создает массив avatar (author: {avatar:)
 function createUser(i) {
   return {
     avatar: 'img/avatars/user0' + (i + 1) + '.png'
   }
 }
+
 // 2 фу-я создает массив offer
 function createRealty(i, coords) {
   return {
@@ -96,6 +95,7 @@ function createCoords (container) {
     y: getRandomNumber(yRange.min, yRange.max)
   }
 }
+
 // 4 функия создает один из 8(i) объектов внутри массива(#card)
 function createAdvertisement (i, container) {
   var advertisement = {};
