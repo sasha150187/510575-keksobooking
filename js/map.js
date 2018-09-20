@@ -67,7 +67,6 @@ function createUser(i) {
     avatar: 'img/avatars/user0' + (i + 1) + '.png'
   }
 }
-
 // 2 фу-я создает массив offer
 function createRealty(i, coords) {
   return {
@@ -86,7 +85,6 @@ function createRealty(i, coords) {
     })
   }
 }
-
 // 3 фу-я создает координаты, массив location
 function createCoords (container) {
 
@@ -95,7 +93,6 @@ function createCoords (container) {
     y: getRandomNumber(yRange.min, yRange.max)
   }
 }
-
 // 4 функия создает один из 8(i) объектов внутри массива(#card)
 function createAdvertisement (i, container) {
   var advertisement = {};
@@ -214,3 +211,38 @@ mapPinButton.addEventListener('mouseup', function () {
 var button = document.querySelector('button');
 var pinCoordinate = { x: container.offsetWidth / 2, y: button.offsetTop + pinSize.height / 2 };
 var redMuffinCords = [pinCoordinate.x, pinCoordinate.y];
+
+// лекция номер 4, часть 2. валидация формы
+// тип жилья
+var accommodationType = document.querySelector('#type');
+var inputPrice = document.querySelector('#price');
+var placeholder = [0, 1000, 5000, 10000];
+var optionValue = {
+  bungalo: 0,
+  flat: 1000,
+  house: 5000,
+  palace: 10000
+}
+
+accommodationType.addEventListener('change', function (evt) {
+  var currentValue = evt.currentTarget.value;
+  inputPrice.placeholder = optionValue[currentValue];
+  inputPrice.min = optionValue[currentValue];
+});
+// заезд/выезд
+var timeIn = document.querySelector('#timein');
+var timeOut = document.querySelector('#timeout');
+
+timeIn.addEventListener('change', function (evt) {
+  var currentValue = evt.currentTarget.value;
+  timeOut.value = currentValue;
+});
+// количество гостей в комнтате
+var roomNumber = document.querySelector('#room_number');
+var capacity = document.querySelector('#capacity');
+
+roomNumber.addEventListener('change', function(evt) {
+  var currentValue = evt.currentTarget.value;
+  capacity.value = currentValue;
+});
+
