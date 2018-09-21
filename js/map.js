@@ -89,7 +89,7 @@ function createRealty(i, coords) {
 function createCoords(box) {
 
   return {
-    x: getRandomNumber(container.offsetLeft, container.offsetWidth),
+    x: getRandomNumber(box.offsetLeft, box.offsetWidth),
     y: getRandomNumber(yRange.min, yRange.max)
   };
 }
@@ -248,8 +248,8 @@ pinImgHandle.addEventListener('mousedown', function (evt) {
       var onClickPreventDefault = function (evt) {
         evt.preventDefault();
         pinImgHandle.removeEventListener('click', onClickPreventDefault);
-     };
-     pinImgHandle.addEventListener('click', onClickPreventDefault);
+      };
+      pinImgHandle.addEventListener('click', onClickPreventDefault);
     }
 
   };
