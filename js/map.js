@@ -339,4 +339,3 @@ roomNumber.addEventListener('change', function (evt) {
 // var roomNumberChangeHandler = function (evt) {
 //   console.log(evt);
 // };
-
