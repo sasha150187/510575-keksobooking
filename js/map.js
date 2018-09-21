@@ -86,7 +86,7 @@ function createRealty(i, coords) {
   };
 }
 // 3 фу-я создает координаты, массив location
-function createCoords(container) {
+function createCoords(box) {
 
   return {
     x: getRandomNumber(container.offsetLeft, container.offsetWidth),
@@ -94,7 +94,7 @@ function createCoords(container) {
   };
 }
 // 4 функия создает один из 8(i) объектов внутри массива(#card)
-function createAdvertisement(i, container) {
+function createAdvertisement(i, box) {
   var advertisement = {};
   advertisement.author = createUser(i);
   advertisement.location = createCoords(container);
@@ -246,8 +246,8 @@ pinImgHandle.addEventListener('mousedown', function (evt) {
 
     if (dragged) {
       var onClickPreventDefault = function (evt) {
-         evt.preventDefault();
-         pinImgHandle.removeEventListener('click', onClickPreventDefault);
+        evt.preventDefault();
+        pinImgHandle.removeEventListener('click', onClickPreventDefault);
      };
      pinImgHandle.addEventListener('click', onClickPreventDefault);
     }
