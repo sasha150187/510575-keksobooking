@@ -1,19 +1,16 @@
-
 'use strict';
 
 var ESC_KEYCODE = 27;
 
 var yRange = {min: 130, max: 630};
 var pinSize = {width: 50, height: 70};
-
-
 var container = document.querySelector('.map__pins');
 var card = document.querySelector('#card').content.querySelector('.map__card');
 var pin = document.querySelector('#pin').content.querySelector('.map__pin');
 var pinsContainer = document.querySelector('.map__pins');
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
-
+};
 
 var titles = [
   'Большая уютная квартира',
@@ -68,9 +65,7 @@ var activePin = null;
 function createUser(i) {
   return {
     avatar: 'img/avatars/user0' + (i + 1) + '.png'
-
   };
-
 }
 // 2 фу-я создает массив offer
 function createRealty(i, coords) {
@@ -89,7 +84,6 @@ function createRealty(i, coords) {
       return 0.5 - Math.random();
     })
   };
-
 }
 // 3 фу-я создает координаты, массив location
 function createCoords (container) {
@@ -97,24 +91,18 @@ function createCoords (container) {
   return {
     x: getRandomNumber(container.offsetLeft, container.offsetWidth),
     y: getRandomNumber(yRange.min, yRange.max)
-
   };
-
 }
 // 4 функия создает один из 8(i) объектов внутри массива(#card)
 function createAdvertisement (i, container) {
   var advertisement = {};
-
   advertisement.author = createUser(i);
   advertisement.location = createCoords(container);
-
   var coordinate = [advertisement.location.x, advertisement.location.y];
   advertisement.offer = createRealty(i, coordinate);
 
   return advertisement;
-
 }
-
 // 5 фу-я создает один из пинов, который мы будем видеть на карте как объявление жилья
 function createPin (offer) {
   var clonePin = pin.cloneNode(true);
@@ -123,13 +111,11 @@ function createPin (offer) {
   clonePin.style.left = offer.location.x - pinSize.width / 2 + 'px';
   clonePin.style.top = offer.location.y + pinSize.height + 'px';
   clonePin.addEventListener ('click', function () {
-
     if (currentCard) {
       currentCard.remove();
     }
     currentCard = createCard(offer);
     if (activePin) {
-
       activePin.classList.remove('map__pin--active');
     }
     activePin = clonePin;
@@ -138,9 +124,7 @@ function createPin (offer) {
   });
 
   return clonePin;
-
 }
-
 // 6 фу-я создает одну из карт объявления
 function createCard (offers) { // в ед. числе
   var cloneCard = card.cloneNode(true);
@@ -152,18 +136,15 @@ function createCard (offers) { // в ед. числе
   cloneCard.querySelector('.popup__text--capacity').textContent = offers.offer.rooms + ' комнаты для ' + offers.offer.guests + ' гостей';
   cloneCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + offers.offer.checkin + ', выезд до' + offers.offer.checkout;
   cloneCard.querySelector('.popup__description').textContent = offers.offer.description;
-
   // создадим блок features
   var features = cloneCard.querySelector('.popup__features');
   features.innerHTML = '';
   offers.offer.features.forEach (function(item) {
-
     var newElement = document.createElement('li');
     newElement.classList.add('popup__feature');
     newElement.classList.add('popup__feature--' + item);
     features.appendChild(newElement);
   });
-
   // создадим внутри блока(.popup__photos) нужное количество img
   var blockForPhoto = cloneCard.querySelector('.popup__photos');
   blockForPhoto.innerHTML = '';
@@ -172,14 +153,11 @@ function createCard (offers) { // в ед. числе
     newElement.src = item;
     newElement.style.width = '45px';
     newElement.style.height = '45px';
-
     newElement.classList.add('popup__photo');
     newElement.alt = 'Фотография жилья';
     blockForPhoto.appendChild(newElement);
   });
-
   // добавим обработчики события для карточки-объявления
-
   var closeButton = cloneCard.querySelector('.popup__close');
   closeButton.addEventListener('click', function (event) {
     event.preventDefault();
@@ -188,12 +166,10 @@ function createCard (offers) { // в ед. числе
   document.addEventListener('keydown', escPressHandler);
 
   return cloneCard;
-
 }
 
 function closeCard() {
   if (activePin) {
-
     activePin.classList.remove('map__pin--active');
   }
   currentCard.remove();
@@ -203,9 +179,7 @@ function closeCard() {
 function escPressHandler(event) {
   if (event.keyCode === ESC_KEYCODE) {
     closeCard();
-
   }
-
 }
 // цикл создающий массив из 8 объектов
 var offers = [];
@@ -213,20 +187,16 @@ for (var i = 0; i < 8; i++) {
   offers.push(createAdvertisement(i, pinsContainer));
 }
 
-
 function renderPins (offersData) {
   var fragment = document.createDocumentFragment();
   offersData.forEach (function(offer) {
     pin = createPin(offer);
-
     fragment.appendChild(pin);
   });
   pinsContainer.appendChild(fragment);
 }
 // Лекция номер 4:
-
 // активация страницы
-
 var mapPinButton = document.querySelector('.map__pin--main');
 mapPinButton.addEventListener('mouseup', function () {
   var mapFade = document.querySelector('.map');
@@ -237,7 +207,6 @@ mapPinButton.addEventListener('mouseup', function () {
   input.setAttribute('value', redMuffinCords.join());
   renderPins(offers);
 });
-
 // активация страницы перетягиванием метки
 var pinImgHandle = document.querySelector('.map__pin');
 
@@ -299,21 +268,16 @@ pinImgHandle.addEventListener('mousedown', function (evt) {
 var button = document.querySelector('button');
 var pinCoordinate = {x: container.offsetWidth / 2, y: button.offsetTop + pinSize.height / 2};
 var redMuffinCords = [pinCoordinate.x, pinCoordinate.y];
-
 // лекция номер 4, часть 2. валидация формы
 // тип жилья
 var accommodationType = document.querySelector('#type');
 var inputPrice = document.querySelector('#price');
-
-
 var optionValue = {
   bungalo: 0,
   flat: 1000,
   house: 5000,
   palace: 10000
-
 };
-
 
 accommodationType.addEventListener('change', function (evt) {
   var currentValue = evt.currentTarget.value;
@@ -330,7 +294,12 @@ timeIn.addEventListener('change', function (evt) {
 });
 // количество гостей в комнтате
 var roomNumber = document.querySelector('#room_number');
+var capacity = document.querySelector('#capacity');
 
 roomNumber.addEventListener('change', function (evt) {
   var currentValue = evt.currentTarget.value;
 });
+
+// var roomNumberChangeHandler = function (evt) {
+//   console.log(evt);
+// };
