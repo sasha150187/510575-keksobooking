@@ -5,7 +5,7 @@ var ESC_KEYCODE = 27;
 
 var yRange = {min: 130, max: 630};
 var pinSize = {width: 50, height: 70};
-idth: 50, height: 70 };
+
 
 var container = document.querySelector('.map__pins');
 var card = document.querySelector('#card').content.querySelector('.map__card');
