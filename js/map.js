@@ -245,8 +245,8 @@ pinImgHandle.addEventListener('mousedown', function (evt) {
     document.removeEventListener('mouseup', onMouseUp);
 
     if (dragged) {
-      var onClickPreventDefault = function (evt) {
-        evt.preventDefault();
+      var onClickPreventDefault = function (event) {
+        event.preventDefault();
         pinImgHandle.removeEventListener('click', onClickPreventDefault);
       };
       pinImgHandle.addEventListener('click', onClickPreventDefault);
