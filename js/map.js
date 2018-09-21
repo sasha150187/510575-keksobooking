@@ -253,6 +253,7 @@ pinImgHandle.addEventListener('mousedown', function (evt) {
 
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
+    dragged = true;
 
     var shift = {
       x: startCoords.x - moveEvt.clientX,
@@ -329,7 +330,6 @@ timeIn.addEventListener('change', function (evt) {
 });
 // количество гостей в комнтате
 var roomNumber = document.querySelector('#room_number');
-var capacity = document.querySelector('#capacity');
 
 roomNumber.addEventListener('change', function (evt) {
   var currentValue = evt.currentTarget.value;
