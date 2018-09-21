@@ -331,11 +331,6 @@ timeIn.addEventListener('change', function (evt) {
 var roomNumber = document.querySelector('#room_number');
 var capacity = document.querySelector('#capacity');
 
-
 roomNumber.addEventListener('change', function (evt) {
   var currentValue = evt.currentTarget.value;
 });
-
-// var roomNumberChangeHandler = function (evt) {
-//   console.log(evt);
-// };
