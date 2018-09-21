@@ -86,7 +86,7 @@ function createRealty(i, coords) {
   };
 }
 // 3 фу-я создает координаты, массив location
-function createCoords (container) {
+function createCoords(container) {
 
   return {
     x: getRandomNumber(container.offsetLeft, container.offsetWidth),
@@ -94,7 +94,7 @@ function createCoords (container) {
   };
 }
 // 4 функия создает один из 8(i) объектов внутри массива(#card)
-function createAdvertisement (i, container) {
+function createAdvertisement(i, container) {
   var advertisement = {};
   advertisement.author = createUser(i);
   advertisement.location = createCoords(container);
@@ -104,13 +104,13 @@ function createAdvertisement (i, container) {
   return advertisement;
 }
 // 5 фу-я создает один из пинов, который мы будем видеть на карте как объявление жилья
-function createPin (offer) {
+function createPin(offer) {
   var clonePin = pin.cloneNode(true);
   clonePin.querySelector('img').src = offer.author.avatar;
   clonePin.querySelector('img').alt = offer.offer.title;
   clonePin.style.left = offer.location.x - pinSize.width / 2 + 'px';
   clonePin.style.top = offer.location.y + pinSize.height + 'px';
-  clonePin.addEventListener ('click', function () {
+  clonePin.addEventListener('click', function () {
     if (currentCard) {
       currentCard.remove();
     }
@@ -126,7 +126,7 @@ function createPin (offer) {
   return clonePin;
 }
 // 6 фу-я создает одну из карт объявления
-function createCard (offers) { // в ед. числе
+function createCard(offers) { // в ед. числе
   var cloneCard = card.cloneNode(true);
   cloneCard.querySelector('img').src = offers.author.avatar;
   cloneCard.querySelector('.popup__title').textContent = offers.offer.title;
@@ -139,7 +139,7 @@ function createCard (offers) { // в ед. числе
   // создадим блок features
   var features = cloneCard.querySelector('.popup__features');
   features.innerHTML = '';
-  offers.offer.features.forEach (function(item) {
+  offers.offer.features.forEach(function(item) {
     var newElement = document.createElement('li');
     newElement.classList.add('popup__feature');
     newElement.classList.add('popup__feature--' + item);
@@ -148,7 +148,7 @@ function createCard (offers) { // в ед. числе
   // создадим внутри блока(.popup__photos) нужное количество img
   var blockForPhoto = cloneCard.querySelector('.popup__photos');
   blockForPhoto.innerHTML = '';
-  offers.offer.photos.forEach (function(item) {
+  offers.offer.photos.forEach(function(item) {
     var newElement = document.createElement('img');
     newElement.src = item;
     newElement.style.width = '45px';
@@ -187,9 +187,9 @@ for (var i = 0; i < 8; i++) {
   offers.push(createAdvertisement(i, pinsContainer));
 }
 
-function renderPins (offersData) {
+function renderPins(offersData) {
   var fragment = document.createDocumentFragment();
-  offersData.forEach (function(offer) {
+  offersData.forEach(function(offer) {
     pin = createPin(offer);
     fragment.appendChild(pin);
   });
@@ -214,8 +214,8 @@ pinImgHandle.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
 
   var startCoords = {
-   x: evt.clientX,
-   y: evt.clientY
+    x: evt.clientX,
+    y: evt.clientY
   };
 
   var dragged = false;
@@ -247,21 +247,15 @@ pinImgHandle.addEventListener('mousedown', function (evt) {
     if (dragged) {
      var onClickPreventDefault = function (evt) {
        evt.preventDefault();
-       dialogHandler.removeEventListener('click', onClickPreventDefault)
-     };
-     dialogHandler.addEventListener('click', onClickPreventDefault);
-   }
+       pinImgHandle.removeEventListener('click', onClickPreventDefault);
+      };
+      pinImgHandle.addEventListener('click', onClickPreventDefault);
+    }
 
   };
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
 });
-
-
-
-
-
-
 
 
 // получение координат метки(адреса)
@@ -294,7 +288,6 @@ timeIn.addEventListener('change', function (evt) {
 });
 // количество гостей в комнтате
 var roomNumber = document.querySelector('#room_number');
-var capacity = document.querySelector('#capacity');
 
 roomNumber.addEventListener('change', function (evt) {
   var currentValue = evt.currentTarget.value;
