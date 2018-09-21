@@ -97,7 +97,7 @@ function createCoords(box) {
 function createAdvertisement(i, box) {
   var advertisement = {};
   advertisement.author = createUser(i);
-  advertisement.location = createCoords(container);
+  advertisement.location = createCoords(box);
   var coordinate = [advertisement.location.x, advertisement.location.y];
   advertisement.offer = createRealty(i, coordinate);
 
@@ -287,11 +287,11 @@ timeIn.addEventListener('change', function (evt) {
   timeOut.value = currentValue;
 });
 // количество гостей в комнтате
-var roomNumber = document.querySelector('#room_number');
+// var roomNumber = document.querySelector('#room_number');
 
-roomNumber.addEventListener('change', function (evt) {
-  var currentValue = evt.currentTarget.value;
-});
+// roomNumber.addEventListener('change', function (evt) {
+//   var currentValue = evt.currentTarget.value;
+// });
 
 // var roomNumberChangeHandler = function (evt) {
 //   console.log(evt);
