@@ -148,7 +148,7 @@ function createCard(offers) { // в ед. числе
   // создадим внутри блока(.popup__photos) нужное количество img
   var blockForPhoto = cloneCard.querySelector('.popup__photos');
   blockForPhoto.innerHTML = '';
-  offers.offer.photos.forEach (function(item) {
+  offers.offer.photos.forEach(function (item) {
     var newElement = document.createElement('img');
     newElement.src = item;
     newElement.style.width = '45px';
@@ -189,7 +189,7 @@ for (var i = 0; i < 8; i++) {
 
 function renderPins(offersData) {
   var fragment = document.createDocumentFragment();
-  offersData.forEach (function(offer) {
+  offersData.forEach(function (offer) {
     pin = createPin(offer);
     fragment.appendChild(pin);
   });
@@ -245,13 +245,11 @@ pinImgHandle.addEventListener('mousedown', function (evt) {
     document.removeEventListener('mouseup', onMouseUp);
 
     if (dragged) {
-      
       var onClickPreventDefault = function (evt) {
-        
          evt.preventDefault();
          pinImgHandle.removeEventListener('click', onClickPreventDefault);
-      };
-      pinImgHandle.addEventListener('click', onClickPreventDefault);
+     };
+     pinImgHandle.addEventListener('click', onClickPreventDefault);
     }
 
   };
