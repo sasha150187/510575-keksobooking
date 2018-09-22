@@ -1,6 +1,11 @@
 'use strict';
+// (function () {
 // Лекция номер 4:
 // активация страницы
+
+var pinSize = {width: 50, height: 70};
+var container = document.querySelector('.map__pins');
+
 var mapPinButton = document.querySelector('.map__pin--main');
 mapPinButton.addEventListener('mouseup', function () {
   var mapFade = document.querySelector('.map');
@@ -9,7 +14,7 @@ mapPinButton.addEventListener('mouseup', function () {
   adForm.classList.remove('ad-form--disabled');
   var input = document.querySelector('#address');
   input.setAttribute('value', redMuffinCords.join());
-  renderPins(offers);
+  window.map.renderPins(window.offers);
 });
 // активация страницы перетягиванием метки
 var pinImgHandle = document.querySelector('.map__pin');
@@ -18,8 +23,8 @@ pinImgHandle.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
 
   var startCoords = {
-   x: evt.clientX,
-   y: evt.clientY
+    x: evt.clientX,
+    y: evt.clientY
   };
 
   var dragged = false;
@@ -49,17 +54,18 @@ pinImgHandle.addEventListener('mousedown', function (evt) {
     document.removeEventListener('mouseup', onMouseUp);
 
     if (dragged) {
-     var onClickPreventDefault = function (event) {
-       event.preventDefault();
-       pinImgHandle.removeEventListener('click', onClickPreventDefault)
-     };
-     pinImgHandle.addEventListener('click', onClickPreventDefault);
-   }
+      var onClickPreventDefault = function (event) {
+        event.preventDefault();
+        pinImgHandle.removeEventListener('click', onClickPreventDefault);
+      };
+      pinImgHandle.addEventListener('click', onClickPreventDefault);
+    }
 
   };
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
 });
+
 
 // получение координат метки(адреса)
 var button = document.querySelector('button');
@@ -90,12 +96,11 @@ timeIn.addEventListener('change', function (evt) {
   timeOut.value = currentValue;
 });
 // количество гостей в комнтате
-var roomNumber = document.querySelector('#room_number');
-var capacity = document.querySelector('#capacity');
+// var roomNumber = document.querySelector('#room_number');
 
-roomNumber.addEventListener('change', function (evt) {
-  var currentValue = evt.currentTarget.value;
-});
+// roomNumber.addEventListener('change', function (evt) {
+//   var currentValue = evt.currentTarget.value;
+// });
 
 // var roomNumberChangeHandler = function (evt) {
 //   console.log(evt);
