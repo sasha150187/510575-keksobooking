@@ -1,7 +1,13 @@
 'use strict';
 
+var ESC_KEYCODE = 27;
+
 var yRange = {min: 130, max: 630};
 var pinSize = {width: 50, height: 70};
+var container = document.querySelector('.map__pins');
+var card = document.querySelector('#card').content.querySelector('.map__card');
+var pin = document.querySelector('#pin').content.querySelector('.map__pin');
+var pinsContainer = document.querySelector('.map__pins');
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
@@ -50,6 +56,11 @@ var photos = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg'
 ];
+
+
+var map = document.querySelector('.map');
+var currentCard = null;
+var activePin = null;
 // 1 фу-я создает массив avatar (author: {avatar:)
 function createUser(i) {
   return {
@@ -75,20 +86,22 @@ function createRealty(i, coords) {
   };
 }
 // 3 фу-я создает координаты, массив location
-function createCoords(box) {
+function createCoords (box) {
 
   return {
     x: getRandomNumber(box.offsetLeft, box.offsetWidth),
     y: getRandomNumber(yRange.min, yRange.max)
   };
 }
+// 4 функия создает один из 8(i) объектов внутри массива(#card)
+window.data = {
+  createAdvertisement: function (i, box) {
+    var advertisement = {};
+    advertisement.author = createUser(i);
+    advertisement.location = createCoords(container);
+    var coordinate = [advertisement.location.x, advertisement.location.y];
+    advertisement.offer = createRealty(i, coordinate);
 
-function createAdvertisement(i, box) {
-  var advertisement = {};
-  advertisement.author = createUser(i);
-  advertisement.location = createCoords(box);
-  var coordinate = [advertisement.location.x, advertisement.location.y];
-  advertisement.offer = createRealty(i, coordinate);
-
-  return advertisement;
-}
+    return advertisement;
+  }
+};

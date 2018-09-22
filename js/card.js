@@ -1,8 +1,6 @@
 'use strict';
 
-var card = document.querySelector('#card').content.querySelector('.map__card');
-
-function createCard(offers) { // в ед. числе
+function createCard (offers) { // в ед. числе
   var cloneCard = card.cloneNode(true);
   cloneCard.querySelector('img').src = offers.author.avatar;
   cloneCard.querySelector('.popup__title').textContent = offers.offer.title;
@@ -15,7 +13,7 @@ function createCard(offers) { // в ед. числе
   // создадим блок features
   var features = cloneCard.querySelector('.popup__features');
   features.innerHTML = '';
-  offers.offer.features.forEach(function (item) {
+  offers.offer.features.forEach (function(item) {
     var newElement = document.createElement('li');
     newElement.classList.add('popup__feature');
     newElement.classList.add('popup__feature--' + item);
@@ -24,7 +22,7 @@ function createCard(offers) { // в ед. числе
   // создадим внутри блока(.popup__photos) нужное количество img
   var blockForPhoto = cloneCard.querySelector('.popup__photos');
   blockForPhoto.innerHTML = '';
-  offers.offer.photos.forEach(function (item) {
+  offers.offer.photos.forEach (function(item) {
     var newElement = document.createElement('img');
     newElement.src = item;
     newElement.style.width = '45px';
