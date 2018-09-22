@@ -1,8 +1,7 @@
 'use strict';
-// (function () {
-// Лекция номер 4:
-// активация страницы
 
+(function () {
+// активация страницы
 var pinSize = {width: 50, height: 70};
 var container = document.querySelector('.map__pins');
 
@@ -95,6 +94,7 @@ timeIn.addEventListener('change', function (evt) {
   var currentValue = evt.currentTarget.value;
   timeOut.value = currentValue;
 });
+})();
 // количество гостей в комнтате
 // var roomNumber = document.querySelector('#room_number');
 
