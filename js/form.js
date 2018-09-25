@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+
+  var data = window.data.get(8);
 // активация страницы
   var pinSize = {width: 50, height: 70};
   var container = document.querySelector('.map__pins');
@@ -13,7 +15,7 @@
     adForm.classList.remove('ad-form--disabled');
     var input = document.querySelector('#address');
     input.setAttribute('value', redMuffinCords.join());
-    window.map.renderPins(window.offers);
+    window.map.renderPins(data);
   });
   // активация страницы перетягиванием метки
   var pinImgHandle = document.querySelector('.map__pin');
