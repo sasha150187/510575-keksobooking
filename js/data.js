@@ -82,7 +82,7 @@
       x: getRandomNumber(box.offsetLeft, box.offsetWidth),
       y: getRandomNumber(yRange.min, yRange.max)
     };
-  };
+  }
   // 4 функия создает один из 8(i) объектов внутри массива(#card)
   function createAdvertisement(i, container) {
     var advertisement = {};
