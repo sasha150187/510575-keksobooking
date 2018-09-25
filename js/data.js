@@ -2,8 +2,7 @@
 
 (function () {
   var yRange = {min: 130, max: 630};
-  var container = document.querySelector('.map__pins');  
-  var pinsContainer = document.querySelector('.map__pins');
+
   var getRandomNumber = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
@@ -73,19 +72,19 @@
       description: '',
       photos: photos.sort(function () {
          return 0.5 - Math.random();
-      })
+     })
     };
   }
   // 3 фу-я создает координаты, массив location
-  function createCoords (box) {
+  function createCoords(box) {
 
     return {
       x: getRandomNumber(box.offsetLeft, box.offsetWidth),
       y: getRandomNumber(yRange.min, yRange.max)
     }
-  }
+  };
   // 4 функия создает один из 8(i) объектов внутри массива(#card)
-  function createAdvertisement (i, container) {
+  function createAdvertisement(i, container) {
     var advertisement = {};
     advertisement.author = createUser(i); // author
     advertisement.location = createCoords(container);
