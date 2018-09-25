@@ -2,7 +2,7 @@
 
 (function () {
   var data = window.data.get(8);
-// активация страницы
+  // активация страницы
   var pinSize = {width: 50, height: 70};
   var container = document.querySelector('.map__pins');
 
