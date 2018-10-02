@@ -95,18 +95,18 @@
   // }
 
   function createOffers(callback) {
-    window.load(function(offers){
-        callback(null, offers);
-    }, function(error){
-        callback(error, []);
+    window.load(function (offers) {
+      callback(null, offers);
+    }, function (error) {
+      callback(error, []);
     })
   }
 
   function post(formdata, callback) {
-    window.post(formdata, function(response){
-       callback(null, response);
-    }, function(error){
-       callback(error, null);
+    window.post(formdata, function (response) {
+      callback(null, response);
+    }, function (error) {
+      callback(error, null);
     })
   }
 

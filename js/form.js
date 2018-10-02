@@ -7,24 +7,23 @@
 
   var mapPinButton = document.querySelector('.map__pin--main');
 
-   window.data.get(function(error, data) {
-     if(error) {
-       console.log(error);
-       return;
-     }
+  window.data.get(function (error, data) {
+    if (error) {
+      return;
+    }
 
-    data = data.slice(0, 8);
+  data = data.slice(0, 8);
 
-     mapPinButton.addEventListener('mouseup', function () {
-       var mapFade = document.querySelector('.map');
-       mapFade.classList.remove('map--faded');
-       var adForm = document.querySelector('.ad-form');
-       adForm.classList.remove('ad-form--disabled');
-       var input = document.querySelector('#address');
-       input.setAttribute('value', redMuffinCords.join());
-       window.map.renderPins(data);
-     });
-   })
+   mapPinButton.addEventListener('mouseup', function () {
+     var mapFade = document.querySelector('.map');
+     mapFade.classList.remove('map--faded');
+     var adForm = document.querySelector('.ad-form');
+     adForm.classList.remove('ad-form--disabled');
+     var input = document.querySelector('#address');
+     input.setAttribute('value', redMuffinCords.join());
+     window.map.renderPins(data);
+   });
+  })
 
 
   // активация страницы перетягиванием метки
@@ -122,8 +121,6 @@
   var form = document.querySelector('.ad-form');
   form.addEventListener('submit', function (evt) {
     window.data.post(new FormData(form), function (error, response) {
-      console.log(error);
-        console.log(response);
       // очистить все строки , сбросить все
     });
     evt.preventDefault();

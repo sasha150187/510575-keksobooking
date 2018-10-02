@@ -2,7 +2,7 @@
 // запрос на сервер
 (function () {
   var URL_GET = 'https://js.dump.academy/keksobooking/data';
-    var URL_POST = 'https://js.dump.academy/keksobooking';
+  var URL_POST = 'https://js.dump.academy/keksobooking';
 
   window.load = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
@@ -11,10 +11,10 @@
     xhr.open('GET', URL_GET);
 
     xhr.addEventListener('load', function () {
-      if (this.status !== 200) {
-        onError(this.statusText);
+      if (xhr.status !== 200) {
+        onError(xhr.statusText);
       } else {
-        onLoad(this.response);
+        onLoad(xhr.response);
       }
     });
 
@@ -27,10 +27,10 @@
     xhr.open('POST', URL_POST, true);
 
     xhr.addEventListener('load', function () {
-      if (this.status !== 200) {
-        onError(this.statusText);
+      if (xhr.status !== 200) {
+        onError(xhr.statusText);
       } else {
-        onLoad(this.response);
+        onLoad(xhr.response);
       }
     });
 
