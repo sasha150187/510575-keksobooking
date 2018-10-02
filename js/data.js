@@ -99,7 +99,7 @@
       callback(null, offers);
     }, function (error) {
       callback(error, []);
-    })
+    });
   }
 
   function post(formdata, callback) {
@@ -107,7 +107,7 @@
       callback(null, response);
     }, function (error) {
       callback(error, null);
-    })
+    });
   }
 
   window.data = {

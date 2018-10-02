@@ -12,18 +12,18 @@
       return;
     }
 
-  data = data.slice(0, 8);
+    data = data.slice(0, 8);
 
-   mapPinButton.addEventListener('mouseup', function () {
-     var mapFade = document.querySelector('.map');
-     mapFade.classList.remove('map--faded');
-     var adForm = document.querySelector('.ad-form');
-     adForm.classList.remove('ad-form--disabled');
-     var input = document.querySelector('#address');
-     input.setAttribute('value', redMuffinCords.join());
-     window.map.renderPins(data);
-   });
-  })
+    mapPinButton.addEventListener('mouseup', function () {
+      var mapFade = document.querySelector('.map');
+      mapFade.classList.remove('map--faded');
+      var adForm = document.querySelector('.ad-form');
+      adForm.classList.remove('ad-form--disabled');
+      var input = document.querySelector('#address');
+      input.setAttribute('value', redMuffinCords.join());
+      window.map.renderPins(data);
+    });
+  });
 
 
   // активация страницы перетягиванием метки
@@ -107,20 +107,20 @@
   });
 
   // количество гостей в комнтате
-  var roomNumber = document.querySelector('#room_number');
-
-  roomNumber.addEventListener('change', function (evt) {
-    var currentValue = evt.currentTarget.value;
-  });
-
-  var roomNumberChangeHandler = function (evt) {
-    console.log(evt);
-  };
+  // var roomNumber = document.querySelector('#room_number');
+  //
+  // roomNumber.addEventListener('change', function (evt) {
+  //   var currentValue = evt.currentTarget.value;
+  // });
+  //
+  // var roomNumberChangeHandler = function (evt) {
+  //   console.log(evt);
+  // };
 
 
   var form = document.querySelector('.ad-form');
   form.addEventListener('submit', function (evt) {
-    window.data.post(new FormData(form), function (error, response) {
+    window.data.post(new FormData(form), function (error) {
       // очистить все строки , сбросить все
     });
     evt.preventDefault();
