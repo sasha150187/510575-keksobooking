@@ -120,7 +120,7 @@
 
   var form = document.querySelector('.ad-form');
   form.addEventListener('submit', function (evt) {
-    window.data.post(new FormData(form), function (error) {
+    window.data.post(new FormData(form), function () {
       // очистить все строки , сбросить все
     });
     evt.preventDefault();
