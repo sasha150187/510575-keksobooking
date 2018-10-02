@@ -98,4 +98,5 @@
       pinsContainer.appendChild(fragment);
     }
   };
+
 })();

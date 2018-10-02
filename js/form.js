@@ -1,21 +1,32 @@
 'use strict';
 
 (function () {
-  var data = window.data.get(8);
   // активация страницы
   var pinSize = {width: 50, height: 70};
   var container = document.querySelector('.map__pins');
 
   var mapPinButton = document.querySelector('.map__pin--main');
-  mapPinButton.addEventListener('mouseup', function () {
-    var mapFade = document.querySelector('.map');
-    mapFade.classList.remove('map--faded');
-    var adForm = document.querySelector('.ad-form');
-    adForm.classList.remove('ad-form--disabled');
-    var input = document.querySelector('#address');
-    input.setAttribute('value', redMuffinCords.join());
-    window.map.renderPins(data);
-  });
+
+   window.data.get(function(error, data) {
+     if(error) {
+       console.log(error);
+       return;
+     }
+
+    data = data.slice(0, 8);
+
+     mapPinButton.addEventListener('mouseup', function () {
+       var mapFade = document.querySelector('.map');
+       mapFade.classList.remove('map--faded');
+       var adForm = document.querySelector('.ad-form');
+       adForm.classList.remove('ad-form--disabled');
+       var input = document.querySelector('#address');
+       input.setAttribute('value', redMuffinCords.join());
+       window.map.renderPins(data);
+     });
+   })
+
+
   // активация страницы перетягиванием метки
   var pinImgHandle = document.querySelector('.map__pin');
 
@@ -95,14 +106,26 @@
     var currentValue = evt.currentTarget.value;
     timeOut.value = currentValue;
   });
+
+  // количество гостей в комнтате
+  var roomNumber = document.querySelector('#room_number');
+
+  roomNumber.addEventListener('change', function (evt) {
+    var currentValue = evt.currentTarget.value;
+  });
+
+  var roomNumberChangeHandler = function (evt) {
+    console.log(evt);
+  };
+
+
+  var form = document.querySelector('.ad-form');
+  form.addEventListener('submit', function (evt) {
+    window.data.post(new FormData(form), function (error, response) {
+      console.log(error);
+        console.log(response);
+      // очистить все строки , сбросить все
+    });
+    evt.preventDefault();
+  });
 })();
-// количество гостей в комнтате
-// var roomNumber = document.querySelector('#room_number');
-
-// roomNumber.addEventListener('change', function (evt) {
-//   var currentValue = evt.currentTarget.value;
-// });
-
-// var roomNumberChangeHandler = function (evt) {
-//   console.log(evt);
-// };
