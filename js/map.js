@@ -91,7 +91,8 @@
   window.map = {
     renderPins: function (offersData) {
       var fragment = document.createDocumentFragment();
-      offersData.forEach(function (offer) {
+      var data = offersData.slice(0, 5);
+      data.forEach(function (offer) {
         pin = createPin(offer);
         fragment.appendChild(pin);
       });
