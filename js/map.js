@@ -2,6 +2,7 @@
 
 (function () {
   var ESC_KEYCODE = 27;
+  var MAX_AD_RENDER = 5;
   var map = document.querySelector('.map');
   var currentCard = null;
   var activePin = null;
@@ -88,10 +89,37 @@
     }
   }
 
+  function getRandomInteger(min, max) {
+    var rand = min - 0.5 + Math.random() * (max - min + 1);
+    rand = Math.round(rand);
+    return rand;
+  }
+
+  /* Получает случайный элемент массива */
+  function getShuffle(elements, startIndex) {
+    var index = getRandomInteger(startIndex, elements.length - 1);
+    var interimIndex = elements[index];
+    elements[index] = elements[startIndex];
+    elements[startIndex] = interimIndex;
+    return interimIndex;
+  }
+
+  /* Получает случайный массив */
+  function getRandomArr(endItems, count) {
+    var resultElements = [];
+    for (var k = 0; k < count; k++) {
+      resultElements.push(getShuffle(endItems, k));
+    }
+    return resultElements;
+  }
+
   window.map = {
     renderPins: function (offersData) {
+      currentCard && currentCard.remove();
+      pinsContainer.innerHTML = null;
       var fragment = document.createDocumentFragment();
-      var data = offersData.slice(0, 5);
+      var count = offersData.length > MAX_AD_RENDER ? MAX_AD_RENDER : offersData.length;
+      var data = getRandomArr(offersData, count);
       data.forEach(function (offer) {
         pin = createPin(offer);
         fragment.appendChild(pin);

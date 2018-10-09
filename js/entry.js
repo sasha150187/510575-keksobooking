@@ -1,42 +1,59 @@
 'use strict';
 (function() {
   var map = document.querySelector('.map');
-  var adForm = document.querySelector('.ad-form');
-  var adFormFields = Array.from(adForm.elements);
   var mainPin = map.querySelector('.map__pin--main');
+  var filtersContainer = map.querySelector('.map__filters');
+  var filters;
 
-  function loadDataHadler() {
+  var mainPinStartCoords = {
+    x: parseInt(mainPin.style.left),
+    y: parseInt(mainPin.style.top)
+  }
+
+  function loadDataHadler(data) {
     mainPin.addEventListener('mouseup', activePageHandler);
+
+    if (filters) {
+      filters.enable(window.data.get());
+    }
   }
 
   function blockedPage() {
     map.classList.add('map--faded');
-    adForm.classList.add('ad-form--disabled');
-    adFormFields.forEach(function(item) {
-      item.disabled = true;
-    });
-    mainPin.removeEventListener('mousedown', activePageHandler);
+    window.form.deactivate(mainPinStartCoords);
+    mainPin.style.left = mainPinStartCoords.x + 'px';
+    mainPin.style.top = mainPinStartCoords.y + 'px';
   }
   function unBlockedPage() {
     map.classList.remove('map--faded');
-    adForm.classList.remove('ad-form--disabled');
-    adFormFields.forEach(function(item) {
-      item.disabled = false;
-    });
-    adForm.address.readOnly = true;
+    window.form.activate();
   }
-function activePageHandler(event) {
-  event.preventDefault()
-  unBlockedPage();
-  window.map.renderPins(window.data.get());
-  mainPin.removeEventListener('mouseup', activePageHandler);
-}
 
+  function activePageHandler(event) {
+    event.preventDefault()
+    unBlockedPage();
+    window.map.renderPins(window.data.get());
+    mainPin.removeEventListener('mouseup', activePageHandler);
+  }
+
+  function filterHandler(event) {
+      window.app.debounce(function () {
+        window.map.renderPins(event.filtrateData);
+      });
+  }
+
+  function initFilters() {
+    filters = window.filters(filtersContainer);
+    filters.disable();
+    document.addEventListener('onFilterate', filterHandler);
+  }
 
   function initAppHandler() {
     console.log('DOM Create');
     blockedPage();
-    mainPin.addEventListener('mousedown', activePageHandler);
+    initFilters();
+    mainPin.addEventListener('mousedup', activePageHandler);
+    window.pin.setHandler(mainPin, '.map__pins');
     document.addEventListener('loadData', loadDataHadler);
   }
 

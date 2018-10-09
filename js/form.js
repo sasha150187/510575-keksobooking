@@ -1,75 +1,34 @@
 'use strict';
 
 (function () {
-  // активация страницы
-  var pinSize = {width: 50, height: 70};
-  var container = document.querySelector('.map__pins');
-
-  var mapPinButton = document.querySelector('.map__pin--main');
-
-  window.data.get(function (error, data) {
-    if (error) {
-      return;
-    }
-
-    data = data.slice(0, 8);
-
-    mapPinButton.addEventListener('mouseup', function () {
-      var mapFade = document.querySelector('.map');
-      mapFade.classList.remove('map--faded');
-      var adForm = document.querySelector('.ad-form');
-      adForm.classList.remove('ad-form--disabled');
-      var input = document.querySelector('#address');
-      input.setAttribute('value', redMuffinCords.join());
-      window.map.renderPins(data);
-    });
-  });
-  // получение координат метки(адреса)
-  var button = document.querySelector('button');
-  var pinCoordinate = {x: container.offsetWidth / 2, y: button.offsetTop + pinSize.height / 2};
-  var redMuffinCords = [pinCoordinate.x, pinCoordinate.y];
-  // лекция номер 4, часть 2. валидация формы
-  // тип жилья
-  var accommodationType = document.querySelector('#type');
-  var inputPrice = document.querySelector('#price');
-  var optionValue = {
-    bungalo: 0,
-    flat: 1000,
-    house: 5000,
-    palace: 10000
-  };
-
-  accommodationType.addEventListener('change', function (evt) {
-    var currentValue = evt.currentTarget.value;
-    inputPrice.placeholder = optionValue[currentValue];
-    inputPrice.min = optionValue[currentValue];
-  });
-  // заезд/выезд
-  var timeIn = document.querySelector('#timein');
-  var timeOut = document.querySelector('#timeout');
-
-  timeIn.addEventListener('change', function (evt) {
-    var currentValue = evt.currentTarget.value;
-    timeOut.value = currentValue;
-  });
-
-  // количество гостей в комнтате
-  // var roomNumber = document.querySelector('#room_number');
-  //
-  // roomNumber.addEventListener('change', function (evt) {
-  //   var currentValue = evt.currentTarget.value;
-  // });
-  //
-  // var roomNumberChangeHandler = function (evt) {
-  //   console.log(evt);
-  // };
-
-
   var form = document.querySelector('.ad-form');
-  form.addEventListener('submit', function (evt) {
-    window.data.post(new FormData(form), function () {
-      // очистить все строки , сбросить все
+  var formFields = Array.from(form.elements);
+
+  function deactivateForm(startCoords) {
+    form.classList.add('ad-form--disabled');
+    formFields.forEach(function(item) {
+      item.disabled = true;
     });
-    evt.preventDefault();
-  });
+    form.address.value = startCoords.x + ', ' + startCoords.y;
+  }
+  function activateForm() {
+    form.classList.remove('ad-form--disabled');
+    formFields.forEach(function(item) {
+      item.disabled = false;
+    });
+    form.address.readOnly = true;
+  }
+  function setAdresHandler(event) {
+    form.address.value = event.coords.x + ', ' + event.coords.y;
+  }
+
+
+
+  document.addEventListener('endMove', setAdresHandler);
+
+  window.form = {
+    activate: activateForm,
+    deactivate: deactivateForm,
+    //setHandlers: setFormHandlers
+  }
 })();
