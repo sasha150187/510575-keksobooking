@@ -3,7 +3,7 @@
 (function () {
   var endMove = new Event('endMove', {cancelable: true, bubbles: true});
   function setHandler(elem, containerSelector) {
-    var container = elem.closest(containerSelector);
+    // var container = elem.closest(containerSelector);
     elem.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
 
@@ -28,7 +28,7 @@
         var coords = {
           x: elem.offsetLeft - shift.x,
           y: elem.offsetTop - shift.y
-        }
+        };
 
         elem.style.top = coords.y + 'px';
         elem.style.left = coords.x + 'px';
@@ -52,5 +52,5 @@
   }
   window.pin = {
     setHandler: setHandler
-  }
+  };
 })();

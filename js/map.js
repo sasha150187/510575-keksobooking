@@ -127,9 +127,9 @@
       });
       pinsContainer.appendChild(fragment);
     },
-    deletePins: function() {
+    deletePins: function () {
       closeCard();
-      renderedPins.forEach(function(item){
+      renderedPins.forEach(function (item) {
         item.remove();
       });
       renderedPins = [];

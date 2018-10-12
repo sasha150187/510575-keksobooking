@@ -14,8 +14,6 @@
     return offers;
   }
 
-  
-
   window.backend.download(sucsessDataHandler);
   window.data = {
     get: getData

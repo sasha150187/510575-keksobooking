@@ -5,7 +5,7 @@
   var URL_POST = 'https://js.dump.academy/keksobookin';
   var OK_STATUS = 200;
 
-  function createXHR(url, method, onLoad, onError,  data) {
+  function createXHR(url, method, onLoad, onError, data) {
     var data = data || null;
 
     var xhr = new XMLHttpRequest();
@@ -32,12 +32,12 @@
 
   // Функция получения данных с сервера (метод GET)
   function download(onLoad, onError) {
-    createXHR(URL_GET, 'GET',  onLoad, onError);
+    createXHR(URL_GET, 'GET', onLoad, onError);
   }
 
   // Функция отправки данных на сервер (метод POST)
   function upload(data, onLoad, onError) {
-    createXHR(URL_POST, 'POST', onLoad, onError,  data);
+    createXHR(URL_POST, 'POST', onLoad, onError, data);
   }
 
   window.backend = {

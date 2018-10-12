@@ -16,20 +16,20 @@
   var messageBox = document.querySelector('main');
   var sucsessCb = null;
   var msg = null;
-  var placeholder = [0, 1000, 5000, 10000];
-  //var valid = true;
+
+
   var optionValue = {
     bungalo: 0,
     flat: 1000,
     house: 5000,
     palace: 10000
   };
-  var l10n = {
-    bungalo: 'Бугало',
-    flat: 'Квартира',
-    house: 'Дом',
-    palace: 'Дворец'
-  }
+  // var l10n = {
+  //   bungalo: 'Бугало',
+  //   flat: 'Квартира',
+  //   house: 'Дом',
+  //   palace: 'Дворец'
+  // }
   var roomMatch = {
     '1': ['1'],
     '2': ['2', '1'],
@@ -41,7 +41,7 @@
 
   function deactivateForm(startCoords) {
     form.classList.add('ad-form--disabled');
-    formFields.forEach(function(item) {
+    formFields.forEach(function (item) {
       item.disabled = true;
     });
     form.address.value = startCoords.x + ', ' + startCoords.y;
@@ -53,12 +53,12 @@
   }
   function activateForm() {
     form.classList.remove('ad-form--disabled');
-    formFields.forEach(function(item) {
+    formFields.forEach(function (item) {
       item.disabled = false;
     });
     form.address.readOnly = true;
 
-    toggleCapacity(roomNumber.value)
+    toggleCapacity(roomNumber.value);
 
     roomNumber.addEventListener('change', setRooms);
     timeIn.addEventListener('change', setCheckoutTime);
@@ -69,24 +69,24 @@
     form.address.value = event.coords.x + ', ' + event.coords.y;
   }
 
-  function  setMinPrice (evt) {
+  function setMinPrice(evt) {
     var currentValue = evt.currentTarget.value;
     inputPrice.placeholder = optionValue[currentValue];
     inputPrice.min = optionValue[currentValue];
   }
 
-  function setCheckoutTime (evt) {
+  function setCheckoutTime(evt) {
     var currentValue = evt.currentTarget.value;
     timeOut.value = currentValue;
   }
 
-  function setRooms (evt) {
-    toggleCapacity(evt.currentTarget.value)
+  function setRooms(evt) {
+    toggleCapacity(evt.currentTarget.value);
   }
 
   function toggleCapacity(value) {
     capacityOptions.forEach(function (option) {
-      option.disabled = !roomMatch[value].includes(option.value)
+      option.disabled = !roomMatch[value].includes(option.value);
     });
     capacity.value = value > 3 ? '0' : value;
   }
@@ -96,7 +96,7 @@
     document.removeEventListener('click', closeMsgHandler);
   }
   function closeMsgHandler(event) {
-    if((event.keyCode === ESC_CODE || event.type === 'click') && msg) {
+    if ((event.keyCode === ESC_CODE || event.type === 'click') && msg) {
       closeMsg();
     }
   }
@@ -112,7 +112,7 @@
   function onError() {
     var template = errorTemplate.cloneNode(true);
     msg = template;
-    template.querySelector('.error__button').addEventListener('click', function(event) {
+    template.querySelector('.error__button').addEventListener('click', function (event) {
       event.preventDefault();
       closeMsg();
     });
@@ -133,8 +133,8 @@
     activate: activateForm,
     deactivate: deactivateForm,
     DOMElement: form,
-    setSucsessCb: function(cb) {
+    setSucsessCb: function (cb) {
       sucsessCb = cb;
     }
-  }
+  };
 })();

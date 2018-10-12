@@ -8,7 +8,7 @@
   var mainPinStartCoords = {
     x: parseInt(mainPin.style.left),
     y: parseInt(mainPin.style.top)
-  }
+  };
 
   function loadDataHadler() {
     mainPin.addEventListener('mouseup', activePageHandler);
@@ -20,13 +20,13 @@
 
   function blockPageHandler() {
     blockedPage();
-    setTimeout(function() {
+    setTimeout(function () {
       window.form.deactivate(mainPinStartCoords);
-    }, 100)
+    }, 100);
   }
 
   function blockedPage() {
-    console.log(123)
+
     map.classList.add('map--faded');
     window.form.deactivate(mainPinStartCoords);
     mainPin.style.left = mainPinStartCoords.x + 'px';
@@ -49,10 +49,11 @@
   }
 
   function filterHandler(event) {
-      window.app.debounce(function () {
-        window.map.deletePins();
-        window.map.renderPins(event.filtrateData);
-      });
+
+    window.app.debounce(function () {
+      window.map.deletePins();
+      window.map.renderPins(event.filtrateData);
+    });
   }
 
   function initFilters() {
