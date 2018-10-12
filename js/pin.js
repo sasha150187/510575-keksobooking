@@ -2,7 +2,7 @@
 
 (function () {
   var endMove = new Event('endMove', {cancelable: true, bubbles: true});
-  function setHandler(elem, containerSelector) {
+  function setHandler(elem) {
     elem.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
 

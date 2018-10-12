@@ -15,9 +15,9 @@
   function changeHandler(event) {
     event.stopPropagation();
 
-    var isInput = event.target.nodeName.toLowerCase() === 'input',
-    value = isNaN(event.target.value) ? event.target.value : parseInt(event.target.value, 10),
-    name = isInput ? event.target.name : event.target.name.slice(event.target.name.indexOf('-') + 1);
+    var isInput = event.target.nodeName.toLowerCase() === 'input';
+    var value = isNaN(event.target.value) ? event.target.value : parseInt(event.target.value, 10);
+    var name = isInput ? event.target.name : event.target.name.slice(event.target.name.indexOf('-') + 1);
 
     if (isInput) {
       if (currentFilters[name] && currentFilters[name].includes(value)) {
@@ -38,10 +38,10 @@
 
     var callbacks = Object.keys(currentFilters).map(getFilterCallback);
 
-    filterEvent.filtrateData = data.filter(function(item) {
-        return callbacks.every(function(cb) {
-            return cb(item);
-        })
+    filterEvent.filtrateData = data.filter(function (item) {
+        return callbacks.every(function (cb) {
+          return cb(item);
+        });
     });
 
     document.dispatchEvent(filterEvent);
@@ -79,15 +79,15 @@
 
   function filterBySingleValue(name) {
     return function (dataItem) {
-        return currentFilters[name] === 'any' || dataItem.offer[name] === currentFilters[name];
+      return currentFilters[name] === 'any' || dataItem.offer[name] === currentFilters[name];
     }
   }
 
   function filterByMultipleValue(name) {
     return function (dataItem) {
-        return (currentFilters[name] || []).every(function(value) {
-            return dataItem.offer[name].includes(value);
-        });
+        return (currentFilters[name] || []).every(function (value) {
+          return dataItem.offer[name].includes(value);
+      });
     }
   }
 
