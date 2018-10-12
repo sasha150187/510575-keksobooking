@@ -85,6 +85,7 @@
 
   function filterByMultipleValue(name) {
     return function (dataItem) {
+
       return (currentFilters[name] || []).every(function (value) {
         return dataItem.offer[name].includes(value);
       });
