@@ -5,7 +5,7 @@
   var form;
   var formFields;
   var currentFilters = {};
-  var  data = [];
+  var data = [];
 
   var MAX_PRICE = 50000;
   var MIN_PRICE = 10000;
@@ -20,20 +20,20 @@
     name = isInput ? event.target.name : event.target.name.slice(event.target.name.indexOf('-') + 1);
 
     if (isInput) {
-        if (currentFilters[name] && currentFilters[name].includes(value)) {
-          var index = currentFilters[name].indexOf(value);
-          currentFilters[name].splice(index, 1);
+      if (currentFilters[name] && currentFilters[name].includes(value)) {
+        var index = currentFilters[name].indexOf(value);
+        currentFilters[name].splice(index, 1);
 
-          if (!currentFilters[name].length) {
-            delete currentFilters[name];
-          }
-        } else {
-          currentFilters[name] = currentFilters[name] || [];
-          currentFilters[name].push(value);
+        if (!currentFilters[name].length) {
+          delete currentFilters[name];
         }
+      } else {
+        currentFilters[name] = currentFilters[name] || [];
+        currentFilters[name].push(value);
+      }
 
     } else {
-        currentFilters[name] = value;
+      currentFilters[name] = value;
     }
 
     var callbacks = Object.keys(currentFilters).map(getFilterCallback);
@@ -78,49 +78,50 @@
   }
 
   function filterBySingleValue(name) {
-      return function (dataItem) {
-          return currentFilters[name] === 'any' || dataItem.offer[name] === currentFilters[name];
-      }
+    return function (dataItem) {
+        return currentFilters[name] === 'any' || dataItem.offer[name] === currentFilters[name];
+    }
   }
 
   function filterByMultipleValue(name) {
-      return function (dataItem) {
-          return (currentFilters[name] || []).every(function(value) {
-              return dataItem.offer[name].includes(value);
-          });
-      }
+    return function (dataItem) {
+        return (currentFilters[name] || []).every(function(value) {
+            return dataItem.offer[name].includes(value);
+        });
+    }
   }
 
   function toggleFormState(disabled) {
-      var method = disabled ? 'remove' : 'add';
-      var listenerMethod;
+    var method = disabled ? 'remove' : 'add';
+    var listenerMethod;
 
-      form.classList[method]('disabled');
+    form.classList[method]('disabled');
 
-      formFields.forEach(function(item) {
-          item.disabled = disabled;
-          listenerMethod = disabled ? 'removeEventListener' : 'addEventListener';
-          item[listenerMethod]('change', changeHandler);
-      });
+    formFields.forEach(function(item) {
+        item.disabled = disabled;
+        listenerMethod = disabled ? 'removeEventListener' : 'addEventListener';
+        item[listenerMethod]('change', changeHandler);
+    });
   }
 
   function enable(initialData) {
-      data = [].concat(initialData);
-      toggleFormState(false);
+    data = [].concat(initialData);
+    toggleFormState(false);
   }
 
   function disable() {
-      data = [];
-      toggleFormState(true);
+    data = [];
+    toggleFormState(true);
   }
 
   window.filters = function(filterForms) {
-      form = filterForms;
-      formFields = Array.from(filterForms.elements);
 
-      return {
-          enable: enable,
-          disable: disable
-      }
-  }
-})()
+    form = filterForms;
+    formFields = Array.from(filterForms.elements);
+
+    return {
+        enable: enable,
+        disable: disable
+    };
+  };
+})();
