@@ -80,7 +80,7 @@
   function filterBySingleValue(name) {
     return function (dataItem) {
       return currentFilters[name] === 'any' || dataItem.offer[name] === currentFilters[name];
-    }
+    };
   }
 
   function filterByMultipleValue(name) {
@@ -98,7 +98,7 @@
 
     form.classList[method]('disabled');
 
-    formFields.forEach(function(item) {
+    formFields.forEach(function (item) {
       item.disabled = disabled;
       listenerMethod = disabled ? 'removeEventListener' : 'addEventListener';
       item[listenerMethod]('change', changeHandler);
