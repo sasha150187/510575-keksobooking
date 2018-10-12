@@ -7,8 +7,8 @@
   var filters;
 
   var mainPinStartCoords = {
-    x: parseInt(mainPin.style.left),
-    y: parseInt(mainPin.style.top)
+    x: parseInt(mainPin.style.left, 10),
+    y: parseInt(mainPin.style.top, 10)
   };
 
   function loadDataHadler() {
