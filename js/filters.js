@@ -16,8 +16,8 @@
     event.stopPropagation();
 
     var isInput = event.target.nodeName.toLowerCase() === 'input',
-        value = isNaN(event.target.value) ? event.target.value : parseInt(event.target.value, 10),
-        name = isInput ? event.target.name : event.target.name.slice(event.target.name.indexOf('-') + 1);
+      value = isNaN(event.target.value) ? event.target.value : parseInt(event.target.value, 10),
+      name = isInput ? event.target.name : event.target.name.slice(event.target.name.indexOf('-') + 1);
 
     if (isInput) {
       if (currentFilters[name] && currentFilters[name].includes(value)) {
@@ -85,10 +85,10 @@
 
   function filterByMultipleValue(name) {
     return function (dataItem) {
-        return (currentFilters[name] || []).every(function (value) {
-          return dataItem.offer[name].includes(value);
+      return (currentFilters[name] || []).every(function (value) {
+        return dataItem.offer[name].includes(value);
       });
-    }
+    };
   }
 
   function toggleFormState(disabled) {
@@ -98,9 +98,9 @@
     form.classList[method]('disabled');
 
     formFields.forEach(function(item) {
-        item.disabled = disabled;
-        listenerMethod = disabled ? 'removeEventListener' : 'addEventListener';
-        item[listenerMethod]('change', changeHandler);
+      item.disabled = disabled;
+      listenerMethod = disabled ? 'removeEventListener' : 'addEventListener';
+      item[listenerMethod]('change', changeHandler);
     });
   }
 
@@ -114,14 +114,14 @@
     toggleFormState(true);
   }
 
-  window.filters = function(filterForms) {
+  window.filters = function (filterForms) {
 
     form = filterForms;
     formFields = Array.from(filterForms.elements);
 
     return {
-        enable: enable,
-        disable: disable
+      enable: enable,
+      disable: disable
     };
   };
 })();
