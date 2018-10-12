@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+(function () {
   var map = document.querySelector('.map');
   var mainPin = map.querySelector('.map__pin--main');
   var filtersContainer = map.querySelector('.map__filters');
