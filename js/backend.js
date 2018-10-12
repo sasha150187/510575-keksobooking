@@ -6,7 +6,7 @@
   var OK_STATUS = 200;
 
   function createXHR(url, method, onLoad, onError, data) {
-    var data = data || null;
+    data = data || null;
 
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';

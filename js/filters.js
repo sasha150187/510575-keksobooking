@@ -2,10 +2,10 @@
 
 (function () {
 
-  var form,
-      formFields,
-      currentFilters = {},
-      data = [];
+  var form;
+  var formFields;
+  var currentFilters = {};
+  var  data = [];
 
   var MAX_PRICE = 50000;
   var MIN_PRICE = 10000;
@@ -16,8 +16,8 @@
     event.stopPropagation();
 
     var isInput = event.target.nodeName.toLowerCase() === 'input',
-        value = isNaN(event.target.value) ? event.target.value : parseInt(event.target.value, 10),
-        name = isInput ? event.target.name : event.target.name.slice(event.target.name.indexOf('-') + 1);
+    var value = isNaN(event.target.value) ? event.target.value : parseInt(event.target.value, 10),
+    var name = isInput ? event.target.name : event.target.name.slice(event.target.name.indexOf('-') + 1);
 
     if (isInput) {
         if (currentFilters[name] && currentFilters[name].includes(value)) {

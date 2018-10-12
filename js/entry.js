@@ -1,4 +1,5 @@
 'use strict';
+
 (function() {
   var map = document.querySelector('.map');
   var mainPin = map.querySelector('.map__pin--main');
@@ -42,7 +43,7 @@
   }
 
   function activePageHandler(event) {
-    event.preventDefault()
+    event.preventDefault();
     unBlockedPage();
     window.map.renderPins(window.data.get());
     mainPin.removeEventListener('mouseup', activePageHandler);
