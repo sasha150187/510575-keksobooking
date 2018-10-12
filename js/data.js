@@ -14,11 +14,9 @@
     return offers;
   }
 
-  function errorHandler() {
-    // TODO
-  }
+  
 
-  window.backend.download(sucsessDataHandler, errorHandler);
+  window.backend.download(sucsessDataHandler);
   window.data = {
     get: getData
   };
