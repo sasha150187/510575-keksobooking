@@ -24,12 +24,7 @@
     house: 5000,
     palace: 10000
   };
-  // var l10n = {
-  //   bungalo: 'Бугало',
-  //   flat: 'Квартира',
-  //   house: 'Дом',
-  //   palace: 'Дворец'
-  // }
+
   var roomMatch = {
     '1': ['1'],
     '2': ['2', '1'],
@@ -48,6 +43,7 @@
 
     roomNumber.removeEventListener('change', setRooms);
     timeIn.removeEventListener('change', setCheckoutTime);
+    timeOut.removeEventListener('change', setCheckinTime);
     accommodationType.removeEventListener('change', setMinPrice);
     form.removeEventListener('submit', formSubmitHandler);
   }
@@ -62,6 +58,7 @@
 
     roomNumber.addEventListener('change', setRooms);
     timeIn.addEventListener('change', setCheckoutTime);
+    timeOut.addEventListener('change', setCheckinTime);
     accommodationType.addEventListener('change', setMinPrice);
     form.addEventListener('submit', formSubmitHandler);
   }
@@ -78,6 +75,11 @@
   function setCheckoutTime(evt) {
     var currentValue = evt.currentTarget.value;
     timeOut.value = currentValue;
+  }
+
+  function setCheckinTime(evt) {
+    var currentValue = evt.currentTarget.value;
+    timeIn.value = currentValue;
   }
 
   function setRooms(evt) {

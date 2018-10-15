@@ -2,7 +2,10 @@
 
 (function () {
   var endMove = new Event('endMove', {cancelable: true, bubbles: true});
-  function setHandler(elem) {
+  function setHandler(elem, selector) {
+    var parent = elem.closest(selector);
+    var right = parent.offsetWidth;
+    var bottom = parent.offsetHeight;
     elem.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
 
@@ -29,6 +32,14 @@
           y: elem.offsetTop - shift.y
         };
 
+        if (coords.y < 0 || coords.y > bottom - elem.offsetHeight) {
+          return
+        }
+
+        if (coords.x < 0 || coords.x > right - elem.offsetWidth) {
+          return
+        }
+
         elem.style.top = coords.y + 'px';
         elem.style.left = coords.x + 'px';
 
@@ -49,6 +60,7 @@
       document.addEventListener('mouseup', onMouseUp);
     });
   }
+
   window.pin = {
     setHandler: setHandler
   };

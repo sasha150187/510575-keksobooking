@@ -2,7 +2,7 @@
 // запрос на сервер
 (function () {
   var URL_GET = 'https://js.dump.academy/keksobooking/data';
-  var URL_POST = 'https://js.dump.academy/keksobookin';
+  var URL_POST = 'https://js.dump.academy/keksobooking';
   var OK_STATUS = 200;
 
   function createXHR(url, method, onLoad, onError, data) {
