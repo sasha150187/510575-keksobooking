@@ -33,11 +33,11 @@
         };
 
         if (coords.y < 0 || coords.y > bottom - elem.offsetHeight) {
-          return
+          return;
         }
 
         if (coords.x < 0 || coords.x > right - elem.offsetWidth) {
-          return
+          return;
         }
 
         elem.style.top = coords.y + 'px';
